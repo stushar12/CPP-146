@@ -30,9 +30,8 @@ string smallestWindow (string input, string pattern)
 		{
 			while (hash_string[input[i]]> hash_pattern[input[i]]) 
 				{
-				if (hash_string[input[i]]> hash_pattern[input[i]])
 					hash_string[input[i]]--;
-				i++;
+					i++;
 				}
 
 			int end_index = j - i + 1;
