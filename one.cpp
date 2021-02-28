@@ -1,81 +1,62 @@
-
-#include <bits/stdc++.h>
+#include<bits/stdc++.h>
 using namespace std;
 
-string smallestWindow (string str, string pat)
+string smallestWindow (string input, string pattern)
 {
-	int len1 = str.length();
-	int len2 = pat.length();
+	int len1 = input.length();
+	int len2 = pattern.length();
 
 	if (len1 < len2) 
 	{
 		return "-1";
 	}
 
-	int hash_pat[256] = { 0 };
-	int hash_str[256] = { 0 };
+	int hash_pattern[256] = { 0 };
+	int hash_string[256] = { 0 };
 
-	// Store occurrence ofs characters 
-	// of pattern
 	for (int i = 0; i < len2; i++)
-		hash_pat[pat[i]]++;
+		hash_pattern[pattern[i]]++;
 
-	int start = 0, start_index = -1, min_len = INT_MAX;
-
-	// Start traversing the string
-	// Count of characters
+	int i = 0, start = -1, min_len = INT_MAX;
 	int count = 0; 
+	
 	for (int j = 0; j < len1; j++) 
 	{
-	
-		// Count occurrence of characters 
-		// of string
-		hash_str[str[j]]++;
-
-		// If string's char matches with 
-		// pattern's char
-		// then increment count
-		if (hash_str[str[j]] <= hash_pat[str[j]])
+		hash_string[input[j]]++;
+		if (hash_string[input[j]] <= hash_pattern[input[j]])
 			count++;
 
-		// if all the characters are matched
 		if (count == len2) 
 		{
-		
-			// Try to minimize the window 
-			while (hash_str[str[start]]> hash_pat[str[start]]|| hash_pat[str[start]] == 0) 
+			while (hash_string[input[i]]> hash_pattern[input[i]]) 
 				{
-				if (hash_str[str[start]]> hash_pat[str[start]])
-					hash_str[str[start]]--;
-				start++;
+				if (hash_string[input[i]]> hash_pattern[input[i]])
+					hash_string[input[i]]--;
+				i++;
 				}
 
-			// update window size
-			int end_index = j - start + 1;
+			int end_index = j - i + 1;
 			if (min_len > end_index) 
 			{
 				min_len = end_index;
-				start_index = start;
+				start = i;
 			}
 		}
 	}
 
 	// If no window found
-	if (start_index == -1) 
+	if (start == -1) 
 	{
 		return "-1";
 	}
 
-	return str.substr(start_index, min_len);
+	return input.substr(start, min_len);
 }
 
-// Driver code
 int main()
 {
-	string str = "this is a test string";
-	string pat = "tist";
+    string input,pattern;
+    cin>>input>>pattern;
 
-	cout << "Smallest window is : \n"
-		<< smallestWindow(str, pat);
-	return 0;
+    cout<<smallestWindow(input,pattern);
 }
